@@ -2,6 +2,9 @@
 
 extern crate alloc;
 
+#[cfg(feature = "clap")]
+mod clap_arg;
+
 use alloc::boxed::Box;
 use core::{
 	fmt,
