@@ -1,0 +1,23 @@
+[package]
+name = "dur"
+version = "0.1.0"
+edition = "2021"
+authors = ["Taylan Gökkaya<insomnimus@proton.me>"]
+description = "Duration parser and formatter for humans"
+readme = "readme.md"
+homepage = "https://github.com/insomnimus/dur"
+repository = "https://github.com/insomnimus/dur"
+license-file = "LICENSE"
+keywords = ["duration", "human", "pretty-print", "format", "time"]
+categories = ["date-and-time", "no-std", "parser-implementations", "text-processing", "value-formatting"]
+
+[features]
+default = []
+std = []
+
+[package.metadata.docs.rs]
+features = ["std"]
+
+[dependencies]
+nom = "7.1.3"
+rust_decimal = { version = "1.32.0", default-features = false, features = ["std"] }
