@@ -89,3 +89,27 @@ assert_eq!(
 - `std`: Makes `Error` implement `std::error::Error`.
 - `serde`: Enables [serde](https://crates.io/crates/serde) de/serialization for [Duration].
 - `clap` Enables using `Duration` directly as an `Arg` in [clap](https://crates.io/crates/clap).
+
+## Syntax
+Dur understands durations of the form "N UNIT" or "N1 UNIT1 N' UNIT2".
+
+Spaces between numbers and units are optional.
+
+Numbers can be decimal: `1.2`, `.5`, `5.`.
+
+Numbers cannot be negative.
+
+Units are case insensitive.
+
+Supported units:
+- nanoseconds, nanosecond, nanos, ns
+- microseconds, microsecond, micros, us, µs
+- milliseconds, millisecond, millis, ms
+- second, seconds, secs, sec, s
+- minutes, minute, mins, min, m
+- hours, hour, hrs, hr, h
+- days, day, d
+- weeks, week, w
+- years, year, yrs, yr, y
+
+One exception is with strings that contain only one non-negative integer (e.g. `"1234"`): these are parsed as milliseconds.
