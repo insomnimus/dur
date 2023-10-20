@@ -13,6 +13,7 @@ mod serde_impl;
 mod tests;
 
 use alloc::boxed::Box;
+#[doc(no_inline)]
 pub use core::time::Duration as StdDuration;
 use core::{
 	fmt::{
@@ -46,6 +47,7 @@ use nom::{
 		separated_pair,
 	},
 };
+#[doc(no_inline)]
 pub use rust_decimal::{
 	self,
 	Decimal,
