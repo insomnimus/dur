@@ -322,17 +322,17 @@ fn i(n: u64, short: &'static str, long: &'static str) -> Int {
 
 impl fmt::Display for Duration {
 	fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-		let n = u64::try_from(self.0.ceil()).unwrap();
+		let n = u128::try_from(self.0.ceil()).unwrap();
 
 		if self.0 < Decimal::ONE_THOUSAND {
 			d(self.0, "ns", "nanosecond").fmt(f)
-		} else if n < MILLISECOND {
+		} else if n < MILLISECOND as u128 {
 			d(self.0 / Decimal::ONE_THOUSAND, "us", "microsecond").fmt(f)
-		} else if n < SECOND {
+		} else if n < SECOND as u128 {
 			d(self.0 / Decimal::from(MILLISECOND), "ms", "millisecond").fmt(f)
-		} else if n < MINUTE {
+		} else if n < MINUTE as u128 {
 			d(self.0 / Decimal::from(SECOND), "s", "second").fmt(f)
-		} else if n < HOUR {
+		} else if n < HOUR as u128 {
 			let (mins, nanos) = sub_unit(self.0, MINUTE);
 			i(mins, "m", "minute").fmt(f)?;
 			let (secs, _) = sub_unit(nanos, SECOND);
@@ -341,7 +341,7 @@ impl fmt::Display for Duration {
 				i(secs, "s", "second").fmt(f)?;
 			}
 			Ok(())
-		} else if n < DAY {
+		} else if n < DAY as u128 {
 			let (hours, nanos) = sub_unit(self.0, HOUR);
 			let (mins, nanos) = sub_unit(nanos, MINUTE);
 			let (secs, _) = sub_unit(nanos, SECOND);
@@ -355,7 +355,7 @@ impl fmt::Display for Duration {
 				i(secs, "s", "second").fmt(f)?;
 			}
 			Ok(())
-		} else if n < YEAR {
+		} else if n < YEAR as u128 {
 			let (days, nanos) = sub_unit(self.0, DAY);
 			let (hours, nanos) = sub_unit(nanos, HOUR);
 			let (mins, _) = sub_unit(nanos, MINUTE);
