@@ -39,35 +39,35 @@ impl<'de> Visitor<'de> for DurationVisitor {
 	where
 		E: de::Error,
 	{
-		Ok(Duration(n as u128))
+		Ok(Duration::from_millis(n as u128))
 	}
 
 	fn visit_u16<E>(self, n: u16) -> Result<Duration, E>
 	where
 		E: de::Error,
 	{
-		Ok(Duration(n as u128))
+		Ok(Duration::from_millis(n as u128))
 	}
 
 	fn visit_u32<E>(self, n: u32) -> Result<Duration, E>
 	where
 		E: de::Error,
 	{
-		Ok(Duration(n as u128))
+		Ok(Duration::from_millis(n as u128))
 	}
 
 	fn visit_u64<E>(self, n: u64) -> Result<Duration, E>
 	where
 		E: de::Error,
 	{
-		Ok(Duration(n as u128))
+		Ok(Duration::from_millis(n as u128))
 	}
 
 	fn visit_u128<E>(self, n: u128) -> Result<Duration, E>
 	where
 		E: de::Error,
 	{
-		Ok(Duration(n))
+		Ok(Duration::from_millis(n))
 	}
 
 	fn visit_str<E>(self, s: &str) -> Result<Duration, E>
