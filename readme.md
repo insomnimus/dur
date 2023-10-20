@@ -87,8 +87,8 @@ assert_eq!(
 
 ## Optional Features
 - `std`: Makes `Error` implement `std::error::Error`.
-- `serde`: Enables [serde](https://crates.io/crates/serde) de/serialization for [Duration].
-- `clap` Enables using `Duration` directly as an `Arg` in [clap](https://crates.io/crates/clap).
+- `serde`: Enables [serde](https://crates.io/crates/serde) de/serialization for [Duration]. (automatically enables the `std` feature)
+- `clap`: Enables using `Duration` directly as an `Arg` in [clap](https://crates.io/crates/clap). (automatically enables the `std` feature)
 
 ## Syntax
 Dur understands durations of the form "N UNIT" or "N1 UNIT1 N' UNIT2".

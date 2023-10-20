@@ -1,6 +1,6 @@
 [package]
 name = "dur"
-version = "0.3.3"
+version = "0.3.4"
 edition = "2021"
 authors = ["Taylan Gökkaya<insomnimus@proton.me>"]
 description = "Duration parser and formatter for humans"
@@ -16,8 +16,11 @@ all-features = true
 
 [features]
 default = []
+# Makes `Error` implement the `std::error::Error` trait.
 std = []
+# Enables using Duration directly as an argument in clap.
 clap = ["std", "clap/std", "clap/error-context"]
+# Enables Duration de/serialization through serde.
 serde = ["serde/alloc"]
 
 [dependencies]
