@@ -1,6 +1,7 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 #![doc = include_str!("../readme.md")]
 
+#[cfg(feature = "alloc")]
 extern crate alloc;
 
 mod arithmetic_impls;
@@ -12,6 +13,7 @@ mod serde_impl;
 #[cfg(test)]
 mod tests;
 
+#[cfg(feature = "alloc")]
 use alloc::boxed::Box;
 #[doc(no_inline)]
 pub use core::time::Duration as StdDuration;
@@ -78,8 +80,6 @@ pub enum Error {
 	/// The value being parsed is too big in nanoseconds in total to fit in a
 	/// [u128] or bigger than [Decimal::MAX] in case of a single unit.
 	ValueTooBig,
-	/// The value contains an unrecognized duration unit.
-	InvalidUnit(Box<str>),
 	/// The value being parsed is missing a unit.
 	///
 	/// Note that values without any unit and only one number, such as `"42"`
@@ -87,6 +87,12 @@ pub enum Error {
 	MissingUnit,
 	/// The value being parsed contains negative durations.
 	IsNegative(Decimal),
+	/// The value contains an unrecognized duration unit.
+	#[cfg(feature = "alloc")]
+	InvalidUnit(Box<str>),
+	#[cfg(not(feature = "alloc"))]
+	/// The value contains an unrecognized duration unit.
+	InvalidUnit,
 }
 
 impl Display for Error {
@@ -95,8 +101,11 @@ impl Display for Error {
 			Self::InvalidDuration => write!(f, "invalid duration"),
 			Self::ValueTooBig => write!(f, "the duration value is too big to store"),
 			Self::MissingUnit => write!(f, "missing unit after number"),
-			Self::InvalidUnit(s) => write!(f, "invalid duration unit `{s}`"),
 			Self::IsNegative(d) => write!(f, "durations cannot be negative ({d})"),
+			#[cfg(feature = "alloc")]
+			Self::InvalidUnit(s) => write!(f, "invalid duration unit `{s}`"),
+			#[cfg(not(feature = "alloc"))]
+			Self::InvalidUnit => write!(f, "invalid duration unit`"),
 		}
 	}
 }
@@ -200,6 +209,9 @@ fn parse_unit(input: &str) -> Result<(&str, u128), Error> {
 		),
 	))(input)
 	.map_err(|_: nom::Err<nom::error::Error<_>>| {
+		#[cfg(not(feature = "alloc"))]
+		return Error::InvalidUnit;
+		#[cfg(feature = "alloc")]
 		Error::InvalidUnit(
 			input
 				.split_whitespace()
@@ -210,9 +222,13 @@ fn parse_unit(input: &str) -> Result<(&str, u128), Error> {
 	})?;
 
 	if rem.starts_with(|c: char| c.is_alphabetic()) {
-		Err(Error::InvalidUnit(
+		#[cfg(feature = "alloc")]
+		return Err(Error::InvalidUnit(
 			input.split_whitespace().next().unwrap_or(input).into(),
-		))
+		));
+
+		#[cfg(not(feature = "alloc"))]
+		Err(Error::InvalidUnit)
 	} else {
 		Ok((rem, unit))
 	}

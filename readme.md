@@ -2,7 +2,10 @@
 Dur is a human-readable duration parser and formatter/pretty-printer.
 
 ## `no_std` Support
-Dur works without std! However, `alloc` is still required for now (it's used in the Error type for better error messages).
+Dur works without std!
+It does not use the heap and therefore `alloc` is not required, enabling it to work without a memory allocator.
+
+However, you can enable the `alloc` feature for marginally better error messages and the `std` feature for the crate's `Error` type to implement `std::error::Error`.
 
 ## Examples
 ```rust
@@ -74,9 +77,12 @@ assert_eq!(sd, d + StdDuration::from_millis(79));
 assert_eq!(d, sd - Duration::from_millis(79));
 
 // You can add/sub Duration from a SystemTime:
-let mut now = std::time::SystemTime::now();
-now -= Duration::from_secs(2);
-now += Duration::from_secs(50);
+#[cfg(feature = "std")]
+{
+	let mut now = std::time::SystemTime::now();
+	now -= Duration::from_secs(2);
+	now += Duration::from_secs(50);
+}
 
 // Finally, you can also compare Duration and StdDuration:
 assert_eq!(
@@ -86,8 +92,9 @@ assert_eq!(
 ```
 
 ## Optional Features
-- `std`: Makes `Error` implement `std::error::Error`.
-- `serde`: Enables [serde](https://crates.io/crates/serde) de/serialization for [Duration]. (automatically enables the `std` feature)
+- `alloc`: Makes error messages marginally more informative by making `Error::InvalidUnit` store the offending string.
+- `std`: Makes `Error` implement `std::error::Error`. (Automatically enables the `alloc` feature.)
+- `serde`: Enables [serde](https://crates.io/crates/serde) de/serialization for [Duration]. (automatically enables the `alloc` feature)
 - `clap`: Enables using `Duration` directly as an `Arg` in [clap](https://crates.io/crates/clap). (automatically enables the `std` feature)
 
 ## Syntax

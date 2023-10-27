@@ -1,3 +1,6 @@
+#![cfg(not(feature = "alloc"))]
+compile_error!("you need to enable the alloc feature to run tests");
+
 use alloc::{
 	format,
 	string::ToString,
