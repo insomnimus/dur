@@ -7,7 +7,7 @@ description = "Duration parser and formatter for humans"
 readme = "readme.md"
 homepage = "https://github.com/insomnimus/dur"
 repository = "https://github.com/insomnimus/dur"
-license-file = "LICENSE"
+license = "MIT"
 keywords = ["duration", "human", "pretty-print", "format", "time"]
 categories = ["date-and-time", "no-std", "parser-implementations", "text-processing", "value-formatting"]
 
