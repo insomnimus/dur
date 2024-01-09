@@ -6,10 +6,15 @@ use core::fmt::{
 
 use crate::*;
 
-#[derive(Copy, Clone, Debug)]
-pub(crate) struct Exact(pub(crate) u128);
+/// Implements [Display] without loss of precision.
+///
+/// The only purpose of [ExactDisplay] is to implement [Display] losslessly; meaning, printing a value of this type with
+/// `{}` and parsing it back into [Duration] will always yield the same value.<br>
+/// The only way to obtain a value of this struct is via the [format_exact](Duration::format_exact) method on [Duration].
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash)]
+pub struct ExactDisplay(pub(crate) u128);
 
-impl Display for Exact {
+impl Display for ExactDisplay {
 	fn fmt(&self, f: &mut Formatter) -> fmt::Result {
 		let d = |ns, unit| {
 			to_dec(ns)

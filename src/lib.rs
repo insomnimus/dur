@@ -27,6 +27,7 @@ use core::{
 	str::FromStr,
 };
 
+pub use formatting::ExactDisplay;
 use nom::{
 	branch::alt,
 	bytes::complete::{
@@ -458,10 +459,9 @@ impl Duration {
 		self.0 == 0
 	}
 
-	/// Returns an opaque object that implements [Display] without any loss of
-	/// precision.
-	pub fn format_exact(self) -> impl Display + Debug + Copy {
-		formatting::Exact(self.0)
+	/// Returns a struct with a lossless [Display] implementation.
+	pub fn format_exact(self) -> ExactDisplay {
+		ExactDisplay(self.0)
 	}
 }
 
