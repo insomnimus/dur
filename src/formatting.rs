@@ -1,9 +1,3 @@
-use core::fmt::{
-	self,
-	Display,
-	Formatter,
-};
-
 use crate::*;
 
 /// Implements [Display] without loss of precision.

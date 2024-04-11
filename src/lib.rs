@@ -13,7 +13,7 @@ mod serde_impl;
 #[cfg(test)]
 mod tests;
 
-#[cfg(feature = "alloc")]
+#[cfg(all(feature = "alloc", not(feature = "std")))]
 use alloc::boxed::Box;
 #[doc(no_inline)]
 pub use core::time::Duration as StdDuration;
