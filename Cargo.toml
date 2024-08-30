@@ -1,9 +1,9 @@
 [package]
 name = "dur"
-version = "0.5.2"
+version = "0.5.3"
 edition = "2021"
 authors = ["Taylan Gökkaya<insomnimus@proton.me>"]
-description = "Duration parser and formatter for humans"
+description = "no_std duration parser and pretty-formatter for humans"
 readme = "readme.md"
 homepage = "https://github.com/insomnimus/dur"
 repository = "https://github.com/insomnimus/dur"
